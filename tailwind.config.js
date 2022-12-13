@@ -15,7 +15,9 @@ module.exports = {
       white: "#f0f6fc",
       border: "#444c56",
       link: "#539bf5",
-      tag: "#4184e4"
+      tag: "#4184e4",
+      yellow: '#FFC500',
+      orange: '#FFC43D'
     }
   },
   plugins: []

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Heading } from "../Heading";
 import { LoadingPage } from "../LoadingPage";
+import { Box } from "../Box";
 export interface ResultProps {
   count: number;
   name: string;
@@ -68,7 +69,9 @@ export function PersonList() {
     if (isLoaded) {
       return (
         <>
+          <Box></Box>
           <Heading total={personData.length}></Heading>
+
           <section
             id="personList"
             className=" flex h-full w-full mx-6  items-start justify-center max-w-3xl"

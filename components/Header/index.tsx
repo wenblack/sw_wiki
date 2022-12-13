@@ -9,12 +9,12 @@ export function Header() {
           name="search"
           id="search"
           placeholder="Search for..."
-          className=" focus-within:border-green pl-4 h-8 mx-8 w-full max-w-md bg-transparent border-solid border outline-none rounded-md"
+          className=" focus-within:border-link pl-4 h-8 mx-8 w-full max-w-md bg-backGround-body border-solid border-2 border-border outline-none rounded-md"
         />
         <button
           type="submit"
           aria-label="Send Button"
-          className="bg-green items-center rounded-md px-6 py-1 font-bold text-center hover:opacity-40 "
+          className="bg-link items-center rounded-md px-6 py-1 font-bold text-center hover:opacity-40 focus:border-solid focus:border-white focus:border  "
         >
           Send
         </button>
