@@ -4,6 +4,7 @@ import axios from "axios";
 import { Heading } from "../Heading";
 import { LoadingPage } from "../LoadingPage";
 import { Box } from "../Box";
+import { Header } from "../Header";
 export interface ResultProps {
   count: number;
   name: string;
@@ -24,6 +25,13 @@ export function PersonList() {
   const [countPerson, setCountPerson] = useState(0);
   const [personForPage, setPersonForPage] = useState(0);
   const [personData, setPersonData] = useState<ResultProps[]>([]);
+  const [message, setMessage] = useState("");
+  const [isSearch, setIsSearch] = useState(false);
+
+  function handleChange(event: any) {
+    setMessage(event.target.value);
+    console.log("Digitado:", event.target.value);
+  }
 
   function next() {
     if (urlBase >= 10) {
@@ -46,29 +54,56 @@ export function PersonList() {
   }
 
   const fetchPerson = async () => {
-    try {
-      const res = await axios.get(
-        `https://swapi.dev/api/people/?page=` + urlBase
-      );
-      setCountPerson(res.data.count);
-      setPersonForPage(res.data.results.length);
-      setPersonData(res.data.results);
-    } catch (err) {
-      console.log(err);
+    if (isSearch) {
+      try {
+        const res = await axios.get(
+          `https://swapi.dev/api/people/?search=` + message
+        );
+        setCountPerson(res.data.count);
+        setPersonForPage(res.data.results.length);
+        setPersonData(res.data.results);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        const res = await axios.get(
+          `https://swapi.dev/api/people/?page=` + urlBase
+        );
+        setCountPerson(res.data.count);
+        setPersonForPage(res.data.results.length);
+        setPersonData(res.data.results);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  const validateSearch = async () => {
+    if (message === "" || null) {
+      alert("Please insert a name");
+      console.log("Field in Blank");
+    } else if (message.length <= 1) {
+      alert("Your search is too short");
+      console.log("Short Search");
+    } else {
+      setIsSearch(true);
+      console.log("Pesquisa OK " + isSearch);
     }
   };
 
   useEffect(() => {
     fetchPerson();
-    if (personData.length === 10) {
+    if (personData.length >= 1) {
       setIsLoaded(true);
     }
-  }, [personData, countPerson, personForPage]);
+  }, [personData, countPerson, personForPage, isSearch]);
 
   {
     if (isLoaded) {
       return (
         <>
+          <Header onChange={handleChange} onSubmit={validateSearch} />
           <Box></Box>
           <Heading total={personData.length}></Heading>
 

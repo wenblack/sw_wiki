@@ -7,7 +7,6 @@ export default function details() {
       id="main"
       className="flex justify-center items-center flex-col h-full w-full bg-backGround-body"
     >
-      <Header></Header>
       <PersonList></PersonList>
     </main>
   );
