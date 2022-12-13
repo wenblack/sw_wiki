@@ -1,9 +1,19 @@
+import { useState } from "react";
+
 export function Header() {
+  const [message, setMessage] = useState('');
+
+  function handleChange(event: any) {
+    setMessage(event.target.value);
+    console.log("Digitado:", event.target.value);
+  };
+
   return (
     <header className=" fixed top-0 flex items-center bg-backGround-header text-center w-full h-fit p-4 container-xl d-flex flex-column flex-lg-row flex-items-center p-responsive height-full position-relative justify-center">
       <form id="search-form" className="flex w-full justify-center">
         <input
           form="search-form"
+          onChange={handleChange}
           type="text"
           aria-label="Search field"
           name="search"
