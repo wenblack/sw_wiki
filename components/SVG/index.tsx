@@ -12,6 +12,7 @@ export function SVG({ width, height }: SvgProps) {
             width={width}
             height={height}
             viewBox="0 0 634.105 271.365"
+            aria-label="StarWars Logo"
         >
             <path
                 fill='#FFC500'

@@ -20,13 +20,14 @@ export interface ResultProps {
 }
 
 export function PersonList() {
-  const [urlBase, setUrlBase] = useState(1);
+  const [urlBase, setUrlBase] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [countPerson, setCountPerson] = useState(0);
   const [personForPage, setPersonForPage] = useState(0);
   const [personData, setPersonData] = useState<ResultProps[]>([]);
   const [message, setMessage] = useState("");
   const [isSearch, setIsSearch] = useState(false);
+  const [page,setPage] = useState(1)
 
   function handleChange(event: any) {
     setMessage(event.target.value);
@@ -34,22 +35,36 @@ export function PersonList() {
   }
 
   function next() {
-    if (urlBase >= 10) {
-      alert("Você já está na ultima página ");
-      setUrlBase(10);
-    } else {
-      setUrlBase(urlBase + 1);
-      fetchPerson();
+    if(urlBase){
+      if (page >= 9) {
+        alert("Você já está na ultima página ");
+        setPage(9)
+      } else {
+        setPage(page + 1);
+        fetchPerson();
+      }
+    }else{
+      alert("Não existe outra Página")
     }
   }
 
   function prev() {
-    if (urlBase === 1) {
-      alert("Você já está na ultima página ");
-      setUrlBase(1);
-    } else {
-      setUrlBase(urlBase - 1);
+    if(urlBase){
+      if (page === 1)  {
+        alert("Você já está na ultima página ");
+        setPage(1);
+      } 
+      else  {
+        setPage(page - 1);
+        fetchPerson();
+      }
+    }
+    else if(!urlBase && page >=9){
+      setPage(page - 1);
       fetchPerson();
+    }
+    else{
+      alert("Não existe outra Página")
     }
   }
 
@@ -68,11 +83,12 @@ export function PersonList() {
     } else {
       try {
         const res = await axios.get(
-          `https://swapi.dev/api/people/?page=` + urlBase
+          `https://swapi.dev/api/people/?page=` + page
         );
         setCountPerson(res.data.count);
         setPersonForPage(res.data.results.length);
         setPersonData(res.data.results);
+        setUrlBase(res.data.next)
       } catch (err) {
         console.log(err);
       }
@@ -127,6 +143,11 @@ export function PersonList() {
               ))}
             </ul>
           </section>
+          <span>
+            <input type="button" value="<" onClick={prev}/>
+            {page}
+            <input type="button" value=">" onClick={next} />
+          </span>
         </>
       );
     } else {
