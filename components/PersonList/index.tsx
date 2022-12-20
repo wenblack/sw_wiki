@@ -5,6 +5,8 @@ import { Heading } from "../Heading";
 import { LoadingPage } from "../LoadingPage";
 import { Box } from "../Box";
 import { Header } from "../Header";
+import { RightSvg } from "../RightSvg";
+import { LeftSvg } from "../LeftSvg";
 export interface ResultProps {
   count: number;
   name: string;
@@ -37,26 +39,24 @@ export function PersonList() {
   function next() {
     if (urlBase) {
       if (page >= 9) {
-        alert("Você já está na ultima página ");
+        alert("This is the last page");
         setPage(9)
       } else {
         setPage(page + 1);
-        fetchPerson();
       }
     } else {
-      alert("Não existe outra Página")
+      alert("This is the last page")
     }
   }
 
   function prev() {
     if (urlBase) {
       if (page === 1) {
-        alert("Você já está na ultima página ");
+        alert("This is the First page");
         setPage(1);
       }
       else {
         setPage(page - 1);
-        fetchPerson();
       }
     }
     else if (!urlBase && page >= 9) {
@@ -64,10 +64,9 @@ export function PersonList() {
       fetchPerson();
     }
     else {
-      alert("Não existe outra Página")
+      alert("That")
     }
   }
-
   const fetchPerson = async () => {
     if (isSearch) {
       try {
@@ -77,6 +76,7 @@ export function PersonList() {
         setCountPerson(res.data.count);
         setPersonForPage(res.data.results.length);
         setPersonData(res.data.results);
+        return
       } catch (err) {
         console.log(err);
       }
@@ -89,6 +89,7 @@ export function PersonList() {
         setPersonForPage(res.data.results.length);
         setPersonData(res.data.results);
         setUrlBase(res.data.next)
+        return
       } catch (err) {
         console.log(err);
       }
@@ -113,7 +114,7 @@ export function PersonList() {
     if (personData.length >= 1) {
       setIsLoaded(true);
     }
-  }, [personData, countPerson, personForPage, isSearch, urlBase, page, isLoaded]);
+  }, [personData,isLoaded,  isSearch, urlBase, page ]);
 
   {
     if (isLoaded) {
@@ -143,10 +144,12 @@ export function PersonList() {
               ))}
             </ul>
           </section>
-          <span className="mt-6">
-            <input type="button" value="<" onClick={prev} />
-            <strong>Page: {page}</strong>
-            <input type="button" value=">" onClick={next} />
+          <span id="changePage" className="mt-6 flex text-center items-center">
+           <button id='previous-button' className='bg-tag bg-opacity-25 rounded-sm mx-2' onClick={prev}>
+            <LeftSvg height={30} widht={30}></LeftSvg>
+           </button>
+            <strong id="page-number" className="text-link">{page}</strong>
+            <button id='next-button' onClick={next} className='bg-tag bg-opacity-25 rounded-sm mx-2'><RightSvg height={30} widht={30}/></button>
           </span>
         </>
       );
