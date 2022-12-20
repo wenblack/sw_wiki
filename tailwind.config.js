@@ -18,6 +18,8 @@ module.exports = {
       tag: "#4184e4",
       yellow: '#FFC500',
       orange: '#FFC43D'
+    },
+    backgroundImage: {
     }
   },
   plugins: []

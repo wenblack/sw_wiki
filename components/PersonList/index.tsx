@@ -27,7 +27,7 @@ export function PersonList() {
   const [personData, setPersonData] = useState<ResultProps[]>([]);
   const [message, setMessage] = useState("");
   const [isSearch, setIsSearch] = useState(false);
-  const [page,setPage] = useState(1)
+  const [page, setPage] = useState(1);
 
   function handleChange(event: any) {
     setMessage(event.target.value);
@@ -35,7 +35,7 @@ export function PersonList() {
   }
 
   function next() {
-    if(urlBase){
+    if (urlBase) {
       if (page >= 9) {
         alert("Você já está na ultima página ");
         setPage(9)
@@ -43,27 +43,27 @@ export function PersonList() {
         setPage(page + 1);
         fetchPerson();
       }
-    }else{
+    } else {
       alert("Não existe outra Página")
     }
   }
 
   function prev() {
-    if(urlBase){
-      if (page === 1)  {
+    if (urlBase) {
+      if (page === 1) {
         alert("Você já está na ultima página ");
         setPage(1);
-      } 
-      else  {
+      }
+      else {
         setPage(page - 1);
         fetchPerson();
       }
     }
-    else if(!urlBase && page >=9){
+    else if (!urlBase && page >= 9) {
       setPage(page - 1);
       fetchPerson();
     }
-    else{
+    else {
       alert("Não existe outra Página")
     }
   }
@@ -104,7 +104,7 @@ export function PersonList() {
       console.log("Short Search");
     } else {
       setIsSearch(true);
-      console.log("Pesquisa OK " + isSearch);
+      console.log("Pesquisa OK ");
     }
   };
 
@@ -113,7 +113,7 @@ export function PersonList() {
     if (personData.length >= 1) {
       setIsLoaded(true);
     }
-  }, [personData, countPerson, personForPage, isSearch]);
+  }, [personData, countPerson, personForPage, isSearch, urlBase, page, isLoaded]);
 
   {
     if (isLoaded) {
@@ -143,9 +143,9 @@ export function PersonList() {
               ))}
             </ul>
           </section>
-          <span>
-            <input type="button" value="<" onClick={prev}/>
-            {page}
+          <span className="mt-6">
+            <input type="button" value="<" onClick={prev} />
+            <strong>Page: {page}</strong>
             <input type="button" value=">" onClick={next} />
           </span>
         </>
